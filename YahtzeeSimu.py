@@ -108,4 +108,4 @@ def simular_partidas(n_partidas):
         print(f"Victorias J2: {victorias_j2} ({victorias_j2/n_partidas*100:.1f}%)")
 
 if __name__ == "__main__":
-    simular_partidas(5)
+    simular_partidas(5000)
