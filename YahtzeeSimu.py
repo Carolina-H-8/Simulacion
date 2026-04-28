@@ -90,6 +90,8 @@ def simular_partidas(n_partidas):
 
         ultimo_j1, ultimo_j2 = j1, j2
 
+
+
     # --- REPORTE DE LA ÚLTIMA PARTIDA ---
     for p in [ultimo_j1, ultimo_j2]:
         print(f"{p.nombre}: {p.puntaje_total} puntos")
@@ -100,22 +102,37 @@ def simular_partidas(n_partidas):
         print()
 
     # --- RESUMEN ESTADÍSTICO ---
-    total_turnos = n_partidas * 2 * 13
-    print(f"--- 📊 RESUMEN DE EVENTOS ESPECIALES ({n_partidas:,} PARTIDAS) ---")
-    print(f"Total de turnos analizados: {total_turnos:,}")
+    PROBS_TEORICAS = {
+        "yahtzee": 4.60,
+        "fullHouse": 30.10,
+        "largeStraight": 25.80,
+        "smallStraight": 61.50  
+    }
     
-    # Lista de categorías a reportar
-    especiales = [("yahtzee", "Yahtzees"), ("fullHouse", "Full Houses"), 
-                  ("largeStraight", "Escaleras Gdes"), ("smallStraight", "Escaleras Peq")]
+    total_turnos = n_partidas * 2 * 13
+    print(f"--- 📊 COMPARATIVA: TEORÍA (3 TIRO) VS. IA (3 TIROS) ---")
+    print(f"Total de turnos analizados: {total_turnos:,}\n")
+    
+    especiales = [
+        ("yahtzee", "Yahtzee"), 
+        ("fullHouse", "Full House"), 
+        ("largeStraight", "Esc. Grande"), 
+        ("smallStraight", "Esc. Pequeña")
+    ]
 
     for key, nombre in especiales:
         cantidad = stats_globales[key]
-        porcentaje = (cantidad / total_turnos) * 100
-        print(f"  - {nombre.ljust(15)}: {cantidad:,} veces ({porcentaje:.3f}%)")
-
-    print(f"\n--- 🏆 RESULTADOS GLOBALES ---")
-    print(f"Victorias J1: {victorias_j1} ({victorias_j1/n_partidas*100:.1f}%)")
-    print(f"Victorias J2: {victorias_j2} ({victorias_j2/n_partidas*100:.1f}%)")
+        prob_simulada = (cantidad / total_turnos) * 100
+        prob_teorica = PROBS_TEORICAS[key]
+        
+        # Eficiencia: Qué tan cerca está nuestra IA del máximo posible
+        eficiencia = (prob_simulada / prob_teorica) * 100
+        
+        print(f"  - {nombre.ljust(15)}:")
+        print(f"    Simulado (IA):  {prob_simulada:7.3f}%")
+        print(f"    Teórico Óptimo: {prob_teorica:7.3f}%")
+        print(f"    Eficiencia IA:  {eficiencia:7.1f}% de la capacidad máxima")
+        print("-" * 45)
 
 if __name__ == "__main__":
     simular_partidas(10000)
