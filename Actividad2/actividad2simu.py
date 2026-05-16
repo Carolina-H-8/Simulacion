@@ -18,7 +18,7 @@ class MantenimientoHMM:
         self.obs_nombres = ['Baja', 'Media', 'Alta']
 
         # 1. Especificaciones del Modelo
-        self.pi = np.array([0.8, 0.15, 0.05])
+        self.pi = np.array([0.80, 0.15, 0.05])
         self.transicion = np.array([
             [0.85, 0.13, 0.02],#normal
             [0.30, 0.50, 0.20],#desgaste
